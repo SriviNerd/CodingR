@@ -18,7 +18,7 @@ def passCount(input1,input2,input3):
   if m>=1000
   return -1
   
-  # Objective - Number of times the ball is passed among the players
+  # Objective  - Number of times the ball is passed among the players
   countGlobalMoves = 0
   indivMaxCount = 0
   #create a list with sequence upto Nth player
