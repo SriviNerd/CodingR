@@ -24,6 +24,3 @@ median(BigDiet$Weight[which(BigDiet$Day==30)],na.rm=TRUE)
 #Write a function which will return the median weight on a specified day.
 
 meanWeight <- function(dirPath, inpDay)
-
-
-Andy <- read.csv("Andy.csv")#reads file to memory
