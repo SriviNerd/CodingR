@@ -151,4 +151,5 @@ BMI
 #Vector with the natural logarithm to the BMI values. 
 log(BMI)
 #Finally make a vector with the weights for those people who have a BMI larger than 25.
-weights[which(BMI>25)]
+gt25weight <- weights[which(BMI>25)]
+gt25weight
