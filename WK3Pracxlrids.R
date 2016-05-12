@@ -128,3 +128,27 @@ summary(Andy)
 #Display the names of the columns.
 names(Andy)
 #Find Andy's weight on Day 1 and Day 30. Do it at first with the which function and then with the subset function.
+Andy[1,"Weight"]
+Andy[which(Andy$Day==30), "Weight"]
+subset(Andy$Weight, Andy$Day==30)
+#How much did Andy lose/gain in these many days?
+Andy
+startWeightAndy<-subset(Andy$Weight, Andy$Day==1)
+endWeightAndy<-subset(Andy$Weight, Andy$Day==30)
+startWeightAndy
+endWeightAndy
+weightLorG <- startWeightAndy - endWeightAndy
+weightLorG
+#Assume that we have registered the height and weight for four people: 
+#Heights in cm are 180, 165, 160, 193; weights in kg are 87, 58, 65, 100. 
+#Make two vectors, height and weight, with the data. 
+height <- c(180, 165, 160, 193)
+weights<- c(87, 58, 65, 100)
+#BMI = weight in kg/ (height in m)2
+#Make a vector with the BMI values for the four people, 
+BMI<-weights/(height/100)^2
+BMI
+#Vector with the natural logarithm to the BMI values. 
+log(BMI)
+#Finally make a vector with the weights for those people who have a BMI larger than 25.
+weights[which(BMI>25)]
