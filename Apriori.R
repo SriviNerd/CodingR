@@ -53,3 +53,13 @@ inspect(head(sort(itemSets,by="support"),20))
 itemSets<-apriori(Transaction,parameter=list(minlen=1,maxlen=3,support=0.02,target="frequent itemsets"))
 summary(itemSets)
 inspect(head(sort(itemSets,by="support"),20))
+#How to infer results
+#Highersupport means higher% of occurance - Support(x) is count(x in the dataset)/Total counts of data set
+#Higher confience means the Rules are positively co-related but cannot gurantee -
+#Confidence of a rule {x} -> {y} is Support (x^y) / Support(x)
+#Confidence might not gurantee co-relation
+#Lift is Confidence / support(y) - If lift is >1 then it is useful and positively co-related, = 1 has no significance
+#lift < 1 means they are negatively co-related if items are statistically independant
+#Leverage also says if a rule is really related or a conincidence
+#leverage = support(x^y) - support(x)*support(y) if the value is > 0 there is usefulness to the rule and they are positively co-related
+
