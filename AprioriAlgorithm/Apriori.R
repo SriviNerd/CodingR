@@ -53,7 +53,7 @@ inspect(head(sort(itemSets,by="support"),20))
 itemSets<-apriori(Transaction,parameter=list(minlen=1,maxlen=3,support=0.02,target="frequent itemsets"))
 summary(itemSets)
 inspect(head(sort(itemSets,by="support"),20))
-#How to infer results
+#How to infer results 
 #Highersupport means higher% of occurance - Support(x) is count(x in the dataset)/Total counts of data set
 #Higher confience means the Rules are positively co-related but cannot gurantee -
 #Confidence of a rule {x} -> {y} is Support (x^y) / Support(x)
