@@ -37,3 +37,30 @@ n=5
 myFunction(n)
 
 #************QUESTION#2*************#
+#Write a function colMeans which will accept a data frame as an input and find out the 
+#mean of the data of each column of the dataframe. If the column is a non-numeric field, 
+#then the function must display an appropriate message. Use this function on the cricData dataframe 
+#that we have created in class.
+
+#Solution
+#Load the CricData DataFrame
+setwd("C:/RPractice/RProjects/CodingR/Asssignment") #Sets current working directory
+list.files()
+cricdata <- read.csv("CricData.csv")#reads file to memory
+cricdata # display the data
+
+#Trying it manually without functions
+nums<-sapply(cricdata, is.numeric)
+numCric<-cricdata[ , nums]
+MeansCric<-apply(numCric,MARGIN=2,FUN=mean)
+MeansCric
+
+#Try this with Functions
+colMeans <- function(d)
+{
+  nums<-sapply(d, is.numeric)
+  numd<-d[ , nums]
+  Meansd<-apply(numd,MARGIN=2,FUN=mean)
+  return(Meansd)
+}
+colMeans(cricdata)
