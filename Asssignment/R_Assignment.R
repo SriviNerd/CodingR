@@ -185,36 +185,117 @@ apply(SALES[1:3], 2, FUN =  function(cl) sds=sd(cl,na.rm=TRUE))
 
 
 #Q5. Download and install the “vcd” package. Use the Arthritis data set for the following problems
+
+#install the package
+install.packages('vcd')
+
+#Load the libraries
+#Visualizing Categorical Data
+
+library(MASS)
+library(grid)
+library(vcd)
+
+#Looking at the firt 10 records
+head(Arthritis,10)
+summary(Arthritis)
+class(Arthritis)
 #Draw a vertical bar plot and a horizontal bar plot on the number of “None”, “Some” and “Marked”. 
+improvedCnt <- table(Arthritis$Improved)
+improvedCnt
+class(improvedCnt)
+
+barplot(improvedCnt)
+barplot(improvedCnt,horiz=TRUE)
+
 #Give a title and label the axes.
+barplot(improvedCnt, main="Vertical Bar Plot", xlab = "Improvement",ylab = "Frequency")
+barplot(improvedCnt, main="Horizontal Bar Plot", xlab = "Improvement",ylab = "Frequency",horiz=TRUE)
+
 #Consider the cross tabulation of treatment type and improvement status.
+data("Arthritis")
+names(Arthritis)
+table(Arthritis$Treatment, Arthritis$Improved)
+
 #Draw the graph as a stacked bar plot and a grouped bar plot.
+barplot(as.matrix(improvedCnt))
+
+
+barplot(improvedCnt, main="Arthritis improved grouped bar plot",
+        xlab="x axis", col=c("darkblue","red", "green"),
+        legend = rownames(improvedCnt), beside=TRUE)
+
+improvedCnt
+
 #Draw bar plots for sorted mean and median values.
+summary(Arthritis)
+
+ageMean<-aggregate(Arthritis[, 4], list(Arthritis$Improved), mean)
+ageMedian<-aggregate(Arthritis[, 4], list(Arthritis$Improved), median)
+
+class(ageMean)
+class(ageMedian)
+
+ageMean
+ageMedian
+
+barplot(as.vector(ageMean$x))
+barplot(as.vector(ageMedian$x))
+
 #Draw a spinogram.
 
+treatment <- factor(rep(c(1, 2), c(43, 41)), levels = c(1, 2),
+                    labels = c("placebo", "treated"))
+improved <- factor(rep(c(1, 2, 3, 1, 2, 3), c(29, 7, 7, 13, 7, 21)),
+                   levels = c(1, 2, 3),
+                   labels = c("none", "some", "marked"))
 
-
-
+treatment
+improved
+(spineplot(improved ~ treatment))
 #***************QUESTION 6 **************************
 
 
 
 #Q6. Create a vector of values – 10, 12, 4, 16, 8. Let us assume that these are the 
 #number of gold medals won by the countries US, UK, Australia, China and France in a particular competition.
-#Draw a simple pie chart, pie chart with percentages, a 3D pie chart based on the above.
-#Draw a fan plot based on the above data. 
 
 vvalues <- c(10,12,4,16,8)
 vvalues
+#Draw a simple pie chart, pie chart with percentages
+
+labelsss <- c("US", "UK", "Australia", "Germany", "France")
+pie(vvalues, labels = labelsss, main="Pie Chart of Countries")
+
+#a 3D pie chart based on the above.
+install.packages('plotrix')
+library(plotrix)
+pie3D(vvalues,labels=labelsss,explode=0.1,
+      main="Pie Chart of Countries ")
+
+#Draw a fan plot based on the above data. 
+
+iucn.df<-data.frame(area=c("Africa","Asia","Europe","N&C America",
+                           "S America","Oceania"),threatened=c(5994,7737,1987,4716,5097,2093))
+fan.plot(vvalues,max.span=pi,
+         labels=paste(labelsss,vvalues,sep="-"),
+         main="Fan plot won by country",ticks=276)
+
 #***************QUESTION 7 **************************
 
 
 #Q7. Load the mtcars data
+mtcars
 #Draw a simple histogram.
+hist(mtcars$mpg)
 #Draw another histogram with 12 bins of red color.
+
 #Draw another histogram with rug plot and frame.
+
 #Draw the fourth histogram with normal curve.
+
 #Draw a kernel density plot
+
 #Draw a box plot, and then draw a parallel box plot to compare these three groups: four, six and eight cylinders. 
 
 
@@ -225,3 +306,24 @@ vvalues
 #Q8. Refer to the BankSalaries.csv file. Read the data in a dataframe. 
 #Write a function which will accept the dataframe and return the following 
 #analysis in the format shown below:
+
+setwd("C:/RPractice/RProjects/CodingR/Asssignment") #Sets current working directory
+list.files()
+BankSal <- read.csv("BankSalaries_assignment2.csv")#reads file to memory
+str(BankSal)
+BankSal
+summary(BankSal)
+
+head(BankSal)
+
+subtable1 <- round(prop.table(table(BankSal$JobGrade,BankSal$Gender),2) * 100,2)
+subtable1
+class(subtable1)
+Totals <- round(prop.table(table(BankSal$JobGrade)) * 100,2)
+Totals
+class(Totals)
+FinalTable <- cbind(subtable1,Totals)
+dFinal <- as.data.frame(FinalTable)
+#dFinal$JobGrade <- seq(1:6)
+print(dFinal)
+#unable to format.
