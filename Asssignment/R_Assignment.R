@@ -33,7 +33,7 @@ myFunction <- function(n)
   #returns a list of the above vectors
   return(list(xVec=xVec, yVec=yVec, count=count))
 }
-n=5
+n=6
 myFunction(n)
 
 #************QUESTION#2*************#
@@ -51,7 +51,9 @@ cricdata # display the data
 
 #Trying it manually without functions
 nums<-sapply(cricdata, is.numeric)
+nums
 numCric<-cricdata[ , nums]
+numCric
 MeansCric<-apply(numCric,MARGIN=2,FUN=mean)
 MeansCric
 
@@ -65,7 +67,8 @@ colMeans <- function(d)
 }
 colMeans(cricdata)
 
-#incomplete need to show custom messages
+#Need help -incomplete need to show custom messages - could not show msg when it is non numeric
+
 
 #**************QUESTION 3************************
 
@@ -106,7 +109,7 @@ PrimeSeive <- function(n)
     sel <- which(primes[(lp+1):(intsqrtn+1)])
     #check if any of the vectors are TRUE
     if(any(sel)){
-      #rest iteration variable to last plus next
+      #Set iteration variable to last plus next
       lp <- lp + min(sel)
     }else lp <- intsqrtn+1
   }
@@ -114,7 +117,7 @@ PrimeSeive <- function(n)
   which(primes)
 }
 
-PrimeSeive(100)
+PrimeSeive(100000)
 
 
 
@@ -158,6 +161,7 @@ F_SALEGRP
 
 SALES <- cbind(YearlySales,F_SALEGRP)
 SALES
+
 #Look the summary of the data frame using the summary function.
 summary(SALES)
 #Find the following:
@@ -181,9 +185,6 @@ apply(SALES[1:3], 2, FUN =  function(cl) sds=sd(cl,na.rm=TRUE))
 
 
 #***************QUESTION 5 **************************
-
-
-
 #Q5. Download and install the “vcd” package. Use the Arthritis data set for the following problems
 
 #install the package
@@ -231,13 +232,11 @@ improvedCnt
 summary(Arthritis)
 
 ageMean<-aggregate(Arthritis[, 4], list(Arthritis$Improved), mean)
+ageMean
 ageMedian<-aggregate(Arthritis[, 4], list(Arthritis$Improved), median)
-
+ageMedian
 class(ageMean)
 class(ageMedian)
-
-ageMean
-ageMedian
 
 barplot(as.vector(ageMean$x))
 barplot(as.vector(ageMedian$x))
@@ -254,9 +253,6 @@ treatment
 improved
 (spineplot(improved ~ treatment))
 #***************QUESTION 6 **************************
-
-
-
 #Q6. Create a vector of values – 10, 12, 4, 16, 8. Let us assume that these are the 
 #number of gold medals won by the countries US, UK, Australia, China and France in a particular competition.
 
@@ -283,22 +279,67 @@ fan.plot(vvalues,max.span=pi,
 
 #***************QUESTION 7 **************************
 
-
+install.packages("ggplot2")
+library(ggplot2)
 #Q7. Load the mtcars data
 mtcars
+names(mtcars)
 #Draw a simple histogram.
-hist(mtcars$mpg)
+
+
+qplot(mtcars$mpg,
+      geom="histogram", 
+      binwidth = 0.5)
+
 #Draw another histogram with 12 bins of red color.
 
+qplot(mtcars$mpg,
+      geom="histogram",
+      binwidth = 12,  
+      main = "Histogram for mpg", 
+      xlab = "mpg",  
+      fill=I("red")
+)
+
+summary(mtcars)
+
+ggplot(data=mtcars, aes(mtcars$mpg)) + 
+  geom_histogram(breaks=seq(20, 50, by = 2), 
+                 col="black", 
+                 fill="red", 
+                 alpha = .2) + 
+  labs(title="Histogram for Mpg") +
+  labs(x="Mpg", y="Count") + 
+  xlim(c(20,30)) + 
+  ylim(c(0,6))
+
+
 #Draw another histogram with rug plot and frame.
+mtcars
+ggplot(mtcars,aes(mpg,qsec))  + geom_point() + geom_rug(col="blue",alpha=.1)
 
 #Draw the fourth histogram with normal curve.
 
+gg <- ggplot(mtcars, aes(x=mpg)) 
+gg <- gg + geom_histogram(binwidth=2, colour="black", aes(y=..density.., fill=..count..))
+gg <- gg + scale_fill_gradient("Count", low="#DCDCDC", high="#7C7C7C")
+gg <- gg + stat_function(fun=dnorm,
+                         color="red",
+                         args=list(mean=mean(mtcars$mpg), 
+                                   sd=sd(mtcars$mpg)))
+
+gg
+class(gg)
 #Draw a kernel density plot
 
+ggplot(mtcars, aes(x=mpg)) + geom_density()
+
+ggplot(mtcars, aes(x=mpg)) + geom_density(aes(group=vs, colour=vs, fill = vs))
+ 
+
 #Draw a box plot, and then draw a parallel box plot to compare these three groups: four, six and eight cylinders. 
-
-
+ggplot(mtcars, aes(x=cyl, y = vs)) + geom_boxplot(aes(group=vs, colour=vs, fill = vs))
+--incomlete...
 
 #***************QUESTION 8 **************************
 
@@ -327,3 +368,7 @@ dFinal <- as.data.frame(FinalTable)
 #dFinal$JobGrade <- seq(1:6)
 print(dFinal)
 #unable to format.
+dFinal$Female = paste(dFinal$Female,"%")
+dFinal$Male = paste(dFinal$Male,"%")
+dFinal$Totals = paste(dFinal$Totals,"%")
+print(dFinal)
